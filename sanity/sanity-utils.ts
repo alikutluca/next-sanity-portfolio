@@ -13,7 +13,8 @@ export async function getProjects(): Promise<Project[]> {
         "image": image.asset->url,
         url,
         content
-    }`
+    }`,
+    { cache: "no-store" }
   );
 }
 
@@ -28,17 +29,20 @@ export async function getProject(slug: string): Promise<Project> {
         url,
         content
     }`,
-    { slug }
+    { slug, cache: "no-store" }
   );
 }
 
 export async function getPages(): Promise<Page[]> {
-  return createClient(clientConfig).fetch(groq`*[_type=="page"]{
+  return createClient(clientConfig).fetch(
+    groq`*[_type=="page"]{
     _id,
     _createdAt,
     title,
     "slug" : slug.current
-  }`);
+  }`,
+    { cache: "no-store" }
+  );
 }
 export async function getPage(slug: string): Promise<Page> {
   return createClient(clientConfig).fetch(
@@ -49,6 +53,6 @@ export async function getPage(slug: string): Promise<Page> {
     "slug" : slug.current,
     content
   }`,
-    { slug }
+    { slug, cache: "no-store" }
   );
 }
